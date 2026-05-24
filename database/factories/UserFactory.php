@@ -42,4 +42,29 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function student(): static
+    {
+        return $this->state(fn () => ['role' => 'student'])
+                    ->afterCreating(function ($user) {
+                        \App\Models\StudentProfile::create([
+                            'user_id'        => $user->id,
+                            'student_number' => 'STU-' . str_pad($user->id, 5, '0', STR_PAD_LEFT),
+                            'phone'          => fake()->phoneNumber(),
+                            'date_of_birth'  => fake()->dateTimeBetween('-30 years', '-18 years')->format('Y-m-d'),
+                            'address'        => fake()->address(),
+                            'status'         => 'active',
+                        ]);
+                    });
+    }
+
+    public function instructor(): static
+    {
+        return $this->state(fn () => ['role' => 'instructor']);
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn () => ['role' => 'admin']);
+    }
 }
