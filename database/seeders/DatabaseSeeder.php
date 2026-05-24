@@ -39,5 +39,11 @@ class DatabaseSeeder extends Seeder
             'role'  => 'student',
         ]);
         $student->assignRole('student');
+
+        User::factory()->count(20)->student()->create()->each(function ($user) {
+            $user->assignRole('student');
+        });
+ 
     }
+    
 }
