@@ -1,26 +1,53 @@
-{{-- resources/views/instructor/courses/_form.blade.php --}}
-<div>
-    <label class="block text-sm font-medium text-gray-700">Title</label>
-    <input type="text" name="title"
-           value="{{ old('title', $course->title ?? '') }}"
-           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-    @error('title') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-</div>
+{{-- Instructor Course Form --}}
 
-<div>
-    <label class="block text-sm font-medium text-gray-700">Description</label>
-    <textarea name="description" rows="4"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ old('description', $course->description ?? '') }}</textarea>
-</div>
+<div class="space-y-6">
 
-<div>
-    <label class="block text-sm font-medium text-gray-700">Status</label>
-    <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-        @foreach(['draft', 'published', 'archived'] as $option)
-            <option value="{{ $option }}"
-                {{ old('status', $course->status ?? 'draft') === $option ? 'selected' : '' }}>
-                {{ ucfirst($option) }}
-            </option>
-        @endforeach
-    </select>
+    {{-- TITLE --}}
+    <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Course Title
+        </label>
+
+        <input type="text"
+               name="title"
+               value="{{ old('title', $course->title ?? '') }}"
+               placeholder="e.g. Web Development Basics"
+               class="w-full rounded-xl border-gray-200 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-100 transition p-2">
+
+        @error('title')
+            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
+
+    {{-- DESCRIPTION --}}
+    <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Description
+        </label>
+
+        <textarea name="description"
+                  rows="4"
+                  placeholder="Write a short description for your course..."
+                  class="w-full rounded-xl border-gray-200 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-100 transition p-2">{{ old('description', $course->description ?? '') }}</textarea>
+    </div>
+
+    {{-- STATUS --}}
+    <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Status
+        </label>
+
+        <select name="status"
+                class="w-full rounded-xl border-gray-200 bg-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-100 transition p-2">
+
+            @foreach(['draft', 'published', 'archived'] as $option)
+                <option value="{{ $option }}"
+                    {{ old('status', $course->status ?? 'draft') === $option ? 'selected' : '' }}>
+                    {{ ucfirst($option) }}
+                </option>
+            @endforeach
+
+        </select>
+    </div>
+
 </div>

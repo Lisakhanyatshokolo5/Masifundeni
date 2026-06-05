@@ -1,59 +1,120 @@
 {{-- resources/views/admin/dashboard.blade.php --}}
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800">Admin Dashboard</h2>
+        <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-bold text-gray-800 tracking-tight">
+             Admin Dashboard
+            </h2>
+            <span class="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                Overview
+            </span>
+        </div>
     </x-slot>
 
-    {{-- Stat cards --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <x-stat-card label="Total students"    :value="$stats['total_students']"    color="indigo"/>
-        <x-stat-card label="Total instructors" :value="$stats['total_instructors']" color="green"/>
-        <x-stat-card label="Total courses"     :value="$stats['total_courses']"     color="yellow"/>
-        <x-stat-card label="Total enrolments"  :value="$stats['total_enrolments']"  color="red"/>
-    </div>
+    <div class="py-6">
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {{-- STAT CARDS --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
 
-        {{-- Recent students --}}
-        <div class="bg-white rounded-lg shadow">
-            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="font-semibold text-gray-700">Recent students</h3>
-                <a href="{{ route('admin.students.index') }}"
-                   class="text-sm text-indigo-600 hover:underline">View all</a>
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-5 border border-gray-100">
+                <p class="text-sm text-gray-500">Total Students</p>
+                <h3 class="text-2xl font-bold text-indigo-600 mt-1">
+                    {{ $stats['total_students'] }}
+                </h3>
             </div>
-            <ul class="divide-y divide-gray-100">
-                @foreach($recentStudents as $student)
-                <li class="px-6 py-3 flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-900">{{ $student->name }}</p>
-                        <p class="text-xs text-gray-500">{{ $student->email }}</p>
-                    </div>
-                    @if($student->studentProfile)
-                        <x-badge :status="$student->studentProfile->status"/>
-                    @endif
-                </li>
-                @endforeach
-            </ul>
+
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-5 border border-gray-100">
+                <p class="text-sm text-gray-500">Total Instructors</p>
+                <h3 class="text-2xl font-bold text-green-600 mt-1">
+                    {{ $stats['total_instructors'] }}
+                </h3>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-5 border border-gray-100">
+                <p class="text-sm text-gray-500">Total Courses</p>
+                <h3 class="text-2xl font-bold text-yellow-500 mt-1">
+                    {{ $stats['total_courses'] }}
+                </h3>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-5 border border-gray-100">
+                <p class="text-sm text-gray-500">Total Enrolments</p>
+                <h3 class="text-2xl font-bold text-red-500 mt-1">
+                    {{ $stats['total_enrolments'] }}
+                </h3>
+            </div>
+
         </div>
 
-        {{-- Recent courses --}}
-        <div class="bg-white rounded-lg shadow">
-            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="font-semibold text-gray-700">Recent courses</h3>
-                <a href="{{ route('admin.courses.index') }}"
-                   class="text-sm text-indigo-600 hover:underline">View all</a>
+        {{-- MAIN GRID --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {{-- RECENT STUDENTS --}}
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+                <div class="px-6 py-4 bg-gray-50 flex justify-between items-center">
+                    <h3 class="font-semibold text-gray-700">👩‍🎓 Recent Students</h3>
+
+                    <a href="{{ route('admin.students.index') }}"
+                       class="text-sm text-indigo-600 hover:text-indigo-800 transition">
+                        View all →
+                    </a>
+                </div>
+
+                <ul class="divide-y divide-gray-100">
+                    @foreach($recentStudents as $student)
+                        <li class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900">
+                                    {{ $student->name }}
+                                </p>
+                                <p class="text-xs text-gray-500">
+                                    {{ $student->email }}
+                                </p>
+                            </div>
+
+                            @if($student->studentProfile)
+                                <span class="text-xs px-3 py-1 rounded-full bg-indigo-50 text-indigo-600">
+                                    {{ $student->studentProfile->status }}
+                                </span>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
             </div>
-            <ul class="divide-y divide-gray-100">
-                @foreach($recentCourses as $course)
-                <li class="px-6 py-3 flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-900">{{ $course->title }}</p>
-                        <p class="text-xs text-gray-500">{{ $course->instructor->name }}</p>
-                    </div>
-                    <x-badge :status="$course->status"/>
-                </li>
-                @endforeach
-            </ul>
+
+            {{-- RECENT COURSES --}}
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+                <div class="px-6 py-4 bg-gray-50 flex justify-between items-center">
+                    <h3 class="font-semibold text-gray-700">📚 Recent Courses</h3>
+
+                    <a href="{{ route('admin.courses.index') }}"
+                       class="text-sm text-indigo-600 hover:text-indigo-800 transition">
+                        View all →
+                    </a>
+                </div>
+
+                <ul class="divide-y divide-gray-100">
+                    @foreach($recentCourses as $course)
+                        <li class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900">
+                                    {{ $course->title }}
+                                </p>
+                                <p class="text-xs text-gray-500">
+                                    {{ $course->instructor->name }}
+                                </p>
+                            </div>
+
+                            <span class="text-xs px-3 py-1 rounded-full bg-green-50 text-green-600">
+                                {{ $course->status }}
+                            </span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
         </div>
     </div>
 </x-app-layout>
