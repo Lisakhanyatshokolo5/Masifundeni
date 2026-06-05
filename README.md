@@ -1,7 +1,7 @@
 # Masifundeni
 
 # Project Overview
-Masifundeni is a student management system web-based application designed to manage students, course , instructors and enrolments within and educational institution. The system provides role-based access control and allows administrators, instructors and students to perform specific tasks according to their assigned roles.
+Masifundeni is a student management system web-based application designed to manage students, course , instructors and enrolments within an educational institution. The system provides role-based access control and allows administrators, instructors and students to perform specific tasks according to their assigned roles.
 
 # Technologies and Framework used
 ## Backend
