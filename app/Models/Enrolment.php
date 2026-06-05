@@ -25,6 +25,21 @@ class Enrolment extends Model
             'enrolled_at' => 'datetime',
         ];
     }
+    // Add to app/Models/Enrolment.php
+    public function grades(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+// Accessor — average score across all grades for this enrolment
+    public function getAverageScoreAttribute(): float
+    {
+        if ($this->grades->isEmpty()) return 0;
+        return round(
+            $this->grades->sum('score') / $this->grades->sum('max_score') * 100,
+            1
+        );
+    }
 
     // ──────────────────────────────────────────
     // Relationships
